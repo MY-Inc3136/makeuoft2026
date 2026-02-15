@@ -3,25 +3,35 @@
 import serial
 from PIL import Image, ImageDraw
 
-# Update this path to match what you found in Step 4
+# Ensure your port matches your Ubuntu setup
 ser = serial.Serial('/dev/ttyACM0', 9600)
 
 def add_marker():
     try:
-        # Make sure 'blank_map.png' is in the same folder as this script
-        with Image.open("blank_map.png") as img:
-            draw = ImageDraw.Draw(img)
-            # Draw a 50x50 red circle
-            draw.ellipse((100, 100, 150, 150), fill="red", outline="white")
-            img.save("updated_map.png")
-            print("Successfully saved updated_map.png")
-    except FileNotFoundError:
-        print("Error: blank_map.png not found in this folder.")
+        # 1. Open and immediately copy into memory to release the original file
+        with Image.open("blank_map.png") as original:
+            img = original.copy().convert("RGB") 
+            
+        draw = ImageDraw.Draw(img)
+        
+        # 2. Draw the marker
+        # Using a bright red circle
+        draw.ellipse((100, 100, 150, 150), fill="red", outline="white")
+        
+        # 3. Save with a unique name or overwrite safely
+        # Adding a tiny delay ensures the OS has time to breathe
+        img.save("updated_map.png", "PNG")
+        print("Done! Image saved successfully.")
+        
+    except Exception as e:
+        print(f"Oops, something went wrong: {e}")
 
 print("Listening for Arduino...")
 while True:
     if ser.in_waiting > 0:
         line = ser.readline().decode('utf-8').rstrip()
         if "detected" in line:
+            print("Arduino says: Object Detected!")
             add_marker()
-        break
+            # Prevent 'double-triggering' if the Arduino sends multiple lines
+            ser.reset_input_buffer()
