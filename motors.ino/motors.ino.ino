@@ -26,21 +26,81 @@ void setup() {
 }
 
 void loop() {
-  // Test: Spin Forward for 2 seconds
-  Serial.println("Spinning forward");
+  
+  moveForward(180);
+  delay(2000);
+  
+  turnRight(150);
+  delay(1000);
+  
+  stopMotors();
+  delay(2000);
+}
+
+// --- HELPER FUNCTIONS ---
+
+void moveForward(int speed) {
+  // Motor A Forward
   digitalWrite(AIN1, HIGH);
   digitalWrite(AIN2, LOW);
-  analogWrite(PWMA, 180); 
-
+  analogWrite(PWMA, speed);
+  
+  // Motor B Forward
   digitalWrite(BIN1, HIGH);
   digitalWrite(BIN2, LOW);
-  analogWrite(PWMB, 180);
+  analogWrite(PWMB, speed);
   
-  delay(2000);
+  Serial.println("Action: Forward");
+}
+
+void moveBackward(int speed) {
+  // Motor A Backward
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, HIGH);
+  analogWrite(PWMA, speed);
   
-  // Stop
-  Serial.println("Stop");
+  // Motor B Backward
+  digitalWrite(BIN1, LOW);
+  digitalWrite(BIN2, HIGH);
+  analogWrite(PWMB, speed);
+  
+  Serial.println("Action: Backward");
+}
+
+void turnRight(int speed) {
+  // Left motor forward, Right motor backward (Spin turn)
+  digitalWrite(AIN1, HIGH);
+  digitalWrite(AIN2, LOW);
+  analogWrite(PWMA, speed);
+  
+  digitalWrite(BIN1, LOW);
+  digitalWrite(BIN2, HIGH);
+  analogWrite(PWMB, speed);
+  
+  Serial.println("Action: Turning Right");
+}
+
+void turnLeft(int speed) {
+  // Right motor forward, Left motor backward (Spin turn)
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, HIGH);
+  analogWrite(PWMA, speed);
+  
+  digitalWrite(BIN1, HIGH);
+  digitalWrite(BIN2, LOW);
+  analogWrite(PWMB, speed);
+  
+  Serial.println("Action: Turning Left");
+}
+
+void stopMotors() {
   analogWrite(PWMA, 0);
   analogWrite(PWMB, 0);
-  delay(2000);
+  // Optional: Set direction pins to LOW to save power
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, LOW);
+  digitalWrite(BIN1, LOW);
+  digitalWrite(BIN2, LOW);
+  
+  Serial.println("Action: Stopped");
 }
