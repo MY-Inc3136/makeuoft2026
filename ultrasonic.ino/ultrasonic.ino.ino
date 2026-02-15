@@ -16,14 +16,13 @@ void loop() {
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
+  digitalWrite(echoPin, LOW);
   
-  duration = pulseIn(echoPin, HIGH);
+  duration = pulseIn(echoPin, HIGH, 20000);
   distance = duration * 0.034 / 2;
 
-  // If object is closer than 20cm, alert the computer
-  if (distance > 0 && distance < 20) {
-    Serial.println("DETECTED");
-    delay(2000); // Pause so we don't save 100 images a second
-  }
+  Serial.print("Distance: ");
+  Serial.println(distance);
+  delay(1000);
+  
 }
