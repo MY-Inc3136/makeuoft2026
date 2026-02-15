@@ -24,3 +24,4 @@ while True:
         line = ser.readline().decode('utf-8').rstrip()
         if "detected" in line:
             add_marker()
+        break

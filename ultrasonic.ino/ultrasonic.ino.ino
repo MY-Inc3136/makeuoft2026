@@ -37,9 +37,9 @@ bool objectDetected() {
   duration = pulseIn(echoPin, HIGH, 20000);
   distance = duration * 0.034 / 2;
 
-  Serial.print("Object detected ");
+  Serial.print("Object within ");
   Serial.print(distance);
-  Serial.println("cm away");
+  Serial.println(" cm");
 
   if(distance >= 0 && distance < 20)
     return true;
