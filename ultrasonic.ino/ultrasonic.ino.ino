@@ -12,7 +12,7 @@ void loop() {
   // search function
 
   if(objectDetected()) {
-    print("Object within range detected!");
+    Serial.println("Object within range detected!");
     // run some function
   }
     
@@ -39,7 +39,12 @@ bool objectDetected() {
 
   Serial.print("Object detected ");
   Serial.print(distance);
-  Serial.print("cm away");
+  Serial.println("cm away");
+
+  if(distance >= 0 && distance < 20)
+    return true;
+  else
+    return false;
 
   
 }
