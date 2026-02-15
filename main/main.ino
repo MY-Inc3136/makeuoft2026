@@ -19,7 +19,7 @@ const int negX = 2;
 const int negY = 3;
 
 int currentCoord = posX;
-int coords[4] = {1, 1, -1, -1}; // coordinates array
+int coords[4] = {512, 512, -1, -1}; // coordinates array
 
 void setup() {
   Serial.begin(9600); // Talk to the computer
@@ -47,23 +47,6 @@ void loop() {
     Serial.println("Object within range detected!");
     goToObject();
   }
-
-  moveForward(150);
-  delay(2000);
-
-  moveBackward(150);
-  delay(2000);
-    
-  turnRight(150);
-  delay(2000);
-
-  turnLeft(150);
-  delay(2000);
-  
-  stopMotors();
-  delay(3000);
-    
-  delay(1000);
 
 }
 
@@ -109,7 +92,7 @@ void moveForward(int speed) {
   digitalWrite(BIN2, HIGH);
   analogWrite(PWMB, speed);
 
-  coord[currentCoord] += 10;
+  coords[currentCoord] += 3;
 
   Serial.println("Action: Forward");
 
@@ -126,15 +109,15 @@ void moveBackward(int speed) {
   digitalWrite(BIN2, LOW);
   analogWrite(PWMB, speed);
 
-  coord[currentCoord] -= 10;
+  coords[currentCoord] -= 3;
 
   Serial.println("Action: Backward");
 }
 
 void turnRight() {
   // Left motor forward, Right motor backward (Spin turn)
-  digitalWrite(AIN1, HIGH);
-  digitalWrite(AIN2, LOW);
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, HIGH);
   analogWrite(PWMA, 150);
   
   digitalWrite(BIN1, LOW);
@@ -145,11 +128,11 @@ void turnRight() {
   if (currentCoord < 3)
     currentCoord += 1;
   else
-    currentCoord = x;
+    currentCoord = posX;
 
   Serial.println("Action: Turning Right");
 
-  delay(1000) // calibrate to be 90 degrees
+  delay(1000); // calibrate to be 90 degrees
 }
 
 // REMOVED TURN LEFT FUNCTION. Reason: redundant
@@ -193,5 +176,6 @@ void goToObject() {
   Serial.print(coords[0] - coords[2]);  // x + (-x)
   Serial.print(",");
   Serial.println(coords[1] - coords[3]); // y + (-y)
+  stopMotors();
   
 }
