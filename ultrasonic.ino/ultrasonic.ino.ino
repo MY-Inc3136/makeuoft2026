@@ -8,6 +8,22 @@ void setup() {
 }
 
 void loop() {
+
+  // search function
+
+  if(objectDetected()) {
+    print("Object within range detected!");
+    // run some function
+  }
+    
+  delay(1000);
+
+  
+  
+}
+
+bool objectDetected() {
+
   long duration;
   int distance;
   
@@ -21,8 +37,9 @@ void loop() {
   duration = pulseIn(echoPin, HIGH, 20000);
   distance = duration * 0.034 / 2;
 
-  Serial.print("Distance: ");
-  Serial.println(distance);
-  delay(1000);
+  Serial.print("Object detected ");
+  Serial.print(distance);
+  Serial.print("cm away");
+
   
 }
