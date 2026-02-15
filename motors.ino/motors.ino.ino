@@ -4,7 +4,7 @@ const int AIN1 = 4;  // Direction 1
 const int AIN2 = 5;  // Direction 2
 
 // Motor B (Right)
-const int PWMB = 6;  // Speed
+const int PWMB = 10;  // Speed
 const int BIN1 = 7;  // Direction 1
 const int BIN2 = 8;  // Direction 2
 
@@ -26,32 +26,42 @@ void setup() {
 }
 
 void loop() {
-  
-  moveForward(180);
+
+  moveForward(150);
   delay(2000);
-  
+
+  moveBackward(150);
+  delay(2000);
+    
   turnRight(150);
-  delay(1000);
+  delay(2000);
+
+  turnLeft(150);
+  delay(2000);
   
   stopMotors();
-  delay(2000);
+  delay(3000);
 }
 
 // --- HELPER FUNCTIONS ---
 
 void moveForward(int speed) {
+  // TESTED - WORKS
+  
   // Motor A Forward
   digitalWrite(AIN1, HIGH);
   digitalWrite(AIN2, LOW);
   analogWrite(PWMA, speed);
-  
-  // Motor B Forward
-  digitalWrite(BIN1, HIGH);
-  digitalWrite(BIN2, LOW);
+
+  // Motor B Forward - Revised to combine moveForward with original turnRight
+  digitalWrite(BIN1, LOW);
+  digitalWrite(BIN2, HIGH);
   analogWrite(PWMB, speed);
   
   Serial.println("Action: Forward");
+
 }
+
 
 void moveBackward(int speed) {
   // Motor A Backward
@@ -60,8 +70,8 @@ void moveBackward(int speed) {
   analogWrite(PWMA, speed);
   
   // Motor B Backward
-  digitalWrite(BIN1, LOW);
-  digitalWrite(BIN2, HIGH);
+  digitalWrite(BIN1, HIGH);
+  digitalWrite(BIN2, LOW);
   analogWrite(PWMB, speed);
   
   Serial.println("Action: Backward");

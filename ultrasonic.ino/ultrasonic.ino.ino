@@ -1,5 +1,5 @@
 const int trigPin = 9;
-const int echoPin = 10;
+const int echoPin = 11;
 
 void setup() {
   Serial.begin(9600); // Talk to the computer
@@ -18,8 +18,6 @@ void loop() {
     
   delay(1000);
 
-  
-  
 }
 
 bool objectDetected() {
